@@ -1,42 +1,36 @@
-import { useState } from "react";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+
 import AppHeader from "../appHeader/AppHeader";
-import RandomChar from "../randomChar/RandomChar";
-import CharList from "../charList/CharList";
-import CharInfo from "../charInfo/CharInfo";
-import ComicsList from "../comicsList/ComicsList";
-import ErrorBaundary from "../errorBoundary/ErrorBaundary";
+import {MainPage, ComicsPage, Page404, SingleComicPage} from "../pages";
+
 
 import decoration from '../../resources/img/vision.png';
 
 const App = () => {
 
-    const [selectedChar, setChar] = useState(null);
-
-    const onCharSelected = (id) => {
-        setChar(id);
-    }
-
     return (
-        <div className="app">
-            <AppHeader/>
-            <main>
-                {/* <ErrorBaundary>
-                    <RandomChar/>
-                </ErrorBaundary>
-                <div className="char__content">
-                    <ErrorBaundary>
-                        <CharList onCharSelected={onCharSelected}/>
-                    </ErrorBaundary>
-                    <ErrorBaundary>
-                        <CharInfo charId={selectedChar}/>
-                    </ErrorBaundary>                      
-                </div> */}
-                <ErrorBaundary>
-                    <ComicsList/>
-                </ErrorBaundary>
-                <img className="bg-decoration" src={decoration} alt="vision"/>
-            </main>
-        </div>
+        <Router>
+            <div className="app">
+                <AppHeader/>
+                <main>
+                    <Switch>
+                        <Route exact path="/">
+                            <MainPage/>
+                        </Route>
+                        <Route exact path="/comics">
+                            <ComicsPage/>
+                        </Route>
+                        <Route exact path="/comics/:comicId">
+                            <SingleComicPage/>
+                        </Route>
+                        <Route path="*">
+                           <Page404/> 
+                        </Route> 
+                    </Switch>              
+                    <img className="bg-decoration" src={decoration} alt="vision"/>
+                </main>
+            </div>
+        </Router>
     )
    
 }
